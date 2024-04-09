@@ -4,7 +4,6 @@ from vqvae import *
 import torchvision
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
-from lossfunction import *
 torch.cuda.empty_cache()
 
 def dice_loss(predictions, ground_truth):
@@ -56,8 +55,8 @@ target_transform=transforms.Compose([
 
 training_data = torchvision.datasets.OxfordIIITPet(root='./data/oxford-pets',transform=transform,target_types="segmentation",target_transform=target_transform, download=True)
 training_data,val_data=torch.utils.data.random_split(training_data, [3180,500])
-train_dataloader = DataLoader(training_data, batch_size=32, shuffle=True)
-val_dataloader = DataLoader(val_data, batch_size=32, shuffle=True)
+train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
+val_dataloader = DataLoader(val_data, batch_size=64, shuffle=True)
 
 net=VQVAE(in_channels=3,
         num_hiddens=256,
