@@ -1,0 +1,7 @@
+
+/data
+/pets_images
+/linknet/dataset
+*.pyc
+/.idea
+linknet/logs
