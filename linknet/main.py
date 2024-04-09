@@ -50,33 +50,35 @@ def generate_and_save_predictions(test_loader, device, model_path, output_direct
 
 
 
+def main():
 
-# Set device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-BATCH_SIZE = 32
-print(device)
+    # Set device
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    BATCH_SIZE = 32
+    print(device)
 
-# Get data loaders
-train_loader, val_loader, test_loader = get_data_loader(BATCH_SIZE)
+    # Get data loaders
+    train_loader, val_loader, test_loader = get_data_loader(BATCH_SIZE)
 
-# # Train model with Dice Loss
-# trained_model = train_segmentation_model(
-#     train_loader,
-#     val_loader,
-#     device,
-#     num_epochs=100,
-#     lr=1e-5,
-# )
-#
-# #save the best model to models directory
-# torch.save(trained_model.state_dict(), os.path.join("models", "best_model.pth"))
-#
-# # Evaluate model on test set
-#
-# dice_score, iou_score = evaluate_model(trained_model, test_loader, device)
+    # Train model with Dice Loss
+    trained_model = train_segmentation_model(
+        train_loader,
+        val_loader,
+        device,
+        num_epochs=100,
+        lr=1e-5,
+    )
 
+    #save the best model to models directory
+    torch.save(trained_model.state_dict(), os.path.join("models", "best_model.pth"))
 
-generate_and_save_predictions(test_loader, device, os.path.join("models", "best_model.pth"), "Output")
+    # Evaluate model on test set
+
+    dice_score, iou_score = evaluate_model(trained_model, test_loader, device)
 
 
+    generate_and_save_predictions(test_loader, device, os.path.join("models", "best_model.pth"), "Output")
+
+if __name__ == "__main__":
+    main()
 

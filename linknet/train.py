@@ -118,8 +118,8 @@ def train_segmentation_model(train_loader, val_loader, device, num_epochs=50, lr
         else:
             no_improve_counter += 1  # Increment counter
 
-        # If validation loss didn't improve for more than 10 epochs, stop training
-        if no_improve_counter > 10:
+        # If validation loss didn't improve for more than 20 epochs, stop training
+        if no_improve_counter > 20:
             print("Early stopping triggered.")
             break
 
