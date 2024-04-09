@@ -57,7 +57,7 @@ distort=transforms.Compose([
 ])
 
 training_data=ImageFolder("imgs",transform=transform)
-train_dataloader = DataLoader(training_data, batch_size=32, shuffle=True)
+train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
 
 net=VQVAE(in_channels=3,
         num_hiddens=256,
