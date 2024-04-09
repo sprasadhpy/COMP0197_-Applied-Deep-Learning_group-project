@@ -88,7 +88,7 @@ def merge_trainval_test(filepath):
     df.to_csv(f'{filepath}/annotations/data.txt', index=None, sep=' ')
     print("Merged data is created.")
 
-def get_data_loader():
+def get_data_loader(BATCH_SIZE):
     dataset_directory = os.path.join("./dataset")
     if not os.path.exists(dataset_directory):
         os.mkdir(dataset_directory)
@@ -170,25 +170,23 @@ def get_data_loader():
 
 
 
-    val_dataset_labeled = OxfordPetDataset(val_images_filenames,
+    val_dataset = OxfordPetDataset(val_images_filenames,
                                 images_directory,
                                 masks_directory,
                                 transform=train_transform,
                                 transform_mask=target_transform)
 
-    test_dataset_labeled = OxfordPetDataset(test_images_filenames,
+    test_dataset = OxfordPetDataset(test_images_filenames,
                                 images_directory,
                                 masks_directory,
                                 transform=train_transform,
                                 transform_mask=target_transform)
 
-    BATCH_SIZE = 8
 
-    train_loader_labeled = DataLoader(train_dataset_labeled, batch_size=BATCH_SIZE, shuffle=True)
-    train_loader_unlabeled = DataLoader(train_dataset_unlabeled, batch_size=BATCH_SIZE, shuffle=True)
-    val_loader_labeled = DataLoader(val_dataset_labeled, batch_size=BATCH_SIZE, shuffle=True)
-    test_loader_labeled = DataLoader(test_dataset_labeled, batch_size=BATCH_SIZE, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=True)
 
-    return train_loader_labeled, train_loader_unlabeled, val_loader_labeled, test_loader_labeled
+    return train_loader,  val_loader, test_loader
 
     
