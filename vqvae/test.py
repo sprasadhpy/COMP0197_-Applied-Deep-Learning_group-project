@@ -7,16 +7,43 @@ import torchvision.transforms as transforms
 torch.cuda.empty_cache()
 device="cuda"
 
-def calculate_supervised_dice_score(predictions, ground_truth):
+
+def calculate_supervised_iou_score(predictions, ground_truth):
     """
-    Calculate the supervised Dice loss for labeled data.
+    Calculate the supervised IOU score for labeled data.
 
     Args:
         predictions (torch.Tensor): Predictions for labeled data, with shape (batch_size, num_classes, height, width).
         ground_truth (torch.Tensor): Ground truth masks for labeled data, with shape (batch_size, num_classes, height, width).
 
     Returns:
-        torch.Tensor: Supervised Dice loss.
+        torch.Tensor: Supervised IOU score.
+    """
+    # Convert raw model outputs into probabilities within the range [0, 1] to ensure alignment with the ground truth masks
+    predictions = torch.sigmoid(predictions)
+
+    # Smoothing factor to prevent division by zero
+    smooth = 1e-5
+
+    # Compute the intersection and union
+    intersection = torch.sum(ground_truth * predictions, dim=(1, 2, 3))
+    union = torch.sum(ground_truth, dim=(1, 2, 3)) + torch.sum(predictions, dim=(1, 2, 3)) -intersection
+
+    # Calculate the IOU score
+    iou_score = (intersection + smooth) / (union + smooth)
+
+    return iou_score.sum()
+
+def calculate_supervised_dice_score(predictions, ground_truth):
+    """
+    Calculate the supervised Dice score for labeled data.
+
+    Args:
+        predictions (torch.Tensor): Predictions for labeled data, with shape (batch_size, num_classes, height, width).
+        ground_truth (torch.Tensor): Ground truth masks for labeled data, with shape (batch_size, num_classes, height, width).
+
+    Returns:
+        torch.Tensor: Supervised Dice score.
     """
     # Convert raw model outputs into probabilities within the range [0, 1] to ensure alignment with the ground truth masks
     predictions = torch.sigmoid(predictions)
@@ -26,10 +53,10 @@ def calculate_supervised_dice_score(predictions, ground_truth):
     
     # Compute the intersection and union
     intersection = torch.sum(ground_truth * predictions, dim=(1, 2, 3))
-    union = torch.sum(ground_truth, dim=(1, 2, 3)) + torch.sum(predictions, dim=(1, 2, 3))
+    cardinality = torch.sum(ground_truth, dim=(1, 2, 3)) + torch.sum(predictions, dim=(1, 2, 3))
     
     # Calculate the Dice score
-    dice_score = 2 * (intersection + smooth) / (union + smooth)
+    dice_score = 2 * (intersection + smooth) / (cardinality+ smooth)
     return dice_score.sum()
 
 transform = transforms.Compose([
@@ -61,12 +88,18 @@ with torch.no_grad():
     net.to(device)
     net.load_state_dict(torch.load("seg_vqvae.pt"))
     dice=0
+    iou=0
+    acc=0
     with torch.no_grad():
         for i, data in enumerate(test_dataloader, 0):
             imgs,segs=data
             imgs = imgs.float().to(device)
             segs = segs.float().to(device)
             out = net(imgs)
+            acc+=torch.mean((torch.round(torch.sigmoid(out["x_recon"]))==segs).float(),dim=(1, 2, 3)).sum().item()
             dice+=calculate_supervised_dice_score(out["x_recon"],segs).item()
-    print(dice/len(testing_data))
+            iou+=calculate_supervised_iou_score(out["x_recon"],segs).item()
+    print("dice score:",dice/len(testing_data))
+    print("IoU score:", iou / len(testing_data))
+    print("accuracy:", acc / len(testing_data))
 

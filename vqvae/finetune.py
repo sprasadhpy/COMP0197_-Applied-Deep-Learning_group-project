@@ -6,25 +6,16 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 torch.cuda.empty_cache()
 
-def dice_loss(predictions, ground_truth):
-    smooth=1e-5
-    iflat = predictions.contiguous().view(-1)
-    tflat = ground_truth.contiguous().view(-1)
-    intersection = (iflat * tflat).sum()
-    A_sum = torch.sum(iflat * iflat)
-    B_sum = torch.sum(tflat * tflat)
-    return  - ((2. * intersection + smooth) / (A_sum + B_sum + smooth))
-
 def calculate_supervised_dice_score(predictions, ground_truth):
     """
-    Calculate the supervised Dice loss for labeled data.
+    Calculate the supervised Dice score for labeled data.
 
     Args:
         predictions (torch.Tensor): Predictions for labeled data, with shape (batch_size, num_classes, height, width).
         ground_truth (torch.Tensor): Ground truth masks for labeled data, with shape (batch_size, num_classes, height, width).
 
     Returns:
-        torch.Tensor: Supervised Dice loss.
+        torch.Tensor: Supervised Dice score.
     """
     # Convert raw model outputs into probabilities within the range [0, 1] to ensure alignment with the ground truth masks
     predictions = torch.sigmoid(predictions)
@@ -32,12 +23,12 @@ def calculate_supervised_dice_score(predictions, ground_truth):
     # Smoothing factor to prevent division by zero
     smooth = 1e-5
     
-    # Compute the intersection and union
+    # Compute the intersection and cardinality
     intersection = torch.sum(ground_truth * predictions, dim=(1, 2, 3))
-    union = torch.sum(ground_truth, dim=(1, 2, 3)) + torch.sum(predictions, dim=(1, 2, 3))
+    cardinality = torch.sum(ground_truth, dim=(1, 2, 3)) + torch.sum(predictions, dim=(1, 2, 3))
     
-    # Calculate the Dice loss
-    dice_score = 2 * (intersection + smooth) / (union + smooth)
+    # Calculate the Dice score
+    dice_score = 2 * (intersection + smooth) / (cardinality + smooth)
     return dice_score.sum()
 
 device="cuda"
@@ -71,7 +62,7 @@ net=VQVAE(in_channels=3,
 net.to(device)
 net.load_state_dict(torch.load("pretrain_vqvae.pt"))
 
-criterion = nn.MSELoss()
+criterion = nn.CrossEntropyLoss()
 optimizer=torch.optim.Adam(net.parameters(),lr=1e-4)
 for epoch in range(100):
     epoch_loss=0
@@ -81,8 +72,7 @@ for epoch in range(100):
         imgs=imgs.float().to(device)
         segs=segs.float().to(device)
         out=net(imgs)
-        loss=dice_loss(torch.sigmoid(out["x_recon"]),segs)
-        #loss += criterion(torch.sigmoid(out["x_recon"]), segs) + 0.25 * out["commitment_loss"]
+        loss = criterion(torch.sigmoid(out["x_recon"]), segs) + 0.25 * out["commitment_loss"]
         dice+=calculate_supervised_dice_score(out["x_recon"],segs).item()
         epoch_loss+=loss.item()
         optimizer.zero_grad()
