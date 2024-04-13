@@ -3,6 +3,7 @@ import numpy as np
 from vqvae import *
 import torchvision
 from torch.utils.data import DataLoader
+from torchmetrics.functional import dice
 import torchvision.transforms as transforms
 torch.cuda.empty_cache()
 device="cuda"
@@ -53,7 +54,8 @@ def calculate_supervised_dice_score(predictions, ground_truth):
     
     # Compute the intersection and union
     intersection = torch.sum(ground_truth * predictions, dim=(1, 2, 3))
-    cardinality = torch.sum(ground_truth, dim=(1, 2, 3)) + torch.sum(predictions, dim=(1, 2, 3))
+    #cardinality = torch.sum(ground_truth, dim=(1, 2, 3)) + torch.sum(predictions, dim=(1, 2, 3))
+    cardinality = torch.sum(ground_truth + predictions, dim=(1, 2, 3))
     
     # Calculate the Dice score
     dice_score = 2 * (intersection + smooth) / (cardinality+ smooth)
@@ -87,7 +89,7 @@ with torch.no_grad():
                 epsilon=1e-5, )
     net.to(device)
     net.load_state_dict(torch.load("seg_vqvae.pt"))
-    dice=0
+    dices=0
     iou=0
     acc=0
     with torch.no_grad():
@@ -96,10 +98,10 @@ with torch.no_grad():
             imgs = imgs.float().to(device)
             segs = segs.float().to(device)
             out = net(imgs)
-            acc+=torch.mean((torch.round(torch.sigmoid(out["x_recon"]))==segs).float(),dim=(1, 2, 3)).sum().item()
-            dice+=calculate_supervised_dice_score(out["x_recon"],segs).item()
+            acc+=torch.mean((torch.argmax(out["x_recon"],1)==torch.argmax(segs,1)).float(),dim=(1, 2)).sum().item()
+            dices+=calculate_supervised_dice_score(out["x_recon"],segs).item()
             iou+=calculate_supervised_iou_score(out["x_recon"],segs).item()
-    print("dice score:",dice/len(testing_data))
+    print("dice score:",dices/len(testing_data))
     print("IoU score:", iou / len(testing_data))
     print("accuracy:", acc / len(testing_data))
 
