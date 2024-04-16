@@ -7,3 +7,5 @@
 linknet/logs
 /vqvae/data
 /vqvae/imgs
+*.pt
+vqvae/pretrain_vqvae.pt
