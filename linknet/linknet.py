@@ -2,12 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # Import necessary PyTorch modules for neural network creation and manipulation
-import torch
-import torch.nn as nn
-import torch.optim
-import torchvision
 
-# Specifically, import the ResNet models from torchvision for use as the encoder
+import torch.nn as nn
+
 from torchvision.models import resnet
 
 # Define a decoder block, which will be used in the LinkNet architecture for upscaling and processing features

@@ -5,3 +5,5 @@
 *.pyc
 /.idea
 linknet/logs
+/vqvae/data
+/vqvae/imgs

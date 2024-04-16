@@ -1,14 +1,9 @@
 
-import os 
 import torch
 from torch.utils.data import Dataset, DataLoader
-import torchvision
 from torchvision import transforms
 from PIL import Image
 import os
-import numpy as np
-import matplotlib.pyplot as plt
-import random
 from tqdm import tqdm
 from urllib.request import urlretrieve
 import shutil

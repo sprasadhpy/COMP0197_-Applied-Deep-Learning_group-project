@@ -44,8 +44,20 @@ target_transform=transforms.Compose([
     transforms.Lambda(lambda x: torch.nn.functional.one_hot((x*255).long() - 1,3).squeeze(0).permute(2,0,1))
 ])
 
+use_pretrained=True # Set this to False to train the model from scratch(Fully supervised)
+load_half_data=True # Set this to True 0to load half of the data
+
+
 training_data = torchvision.datasets.OxfordIIITPet(root='./data/oxford-pets',transform=transform,target_types="segmentation",target_transform=target_transform, download=True)
 training_data,val_data=torch.utils.data.random_split(training_data, [3180,500])
+# Calculate the total number of samples and the half point in the training dataset
+total_samples = len(training_data)
+half_point = total_samples // 2
+if load_half_data:
+    # If load_half_data is True, use only half of the training dataset
+    training_data = torch.utils.data.Subset(training_data, range(half_point))
+
+
 train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
 val_dataloader = DataLoader(val_data, batch_size=64, shuffle=True)
 
@@ -60,7 +72,9 @@ net=VQVAE(in_channels=3,
         decay=0.99,
         epsilon=1e-5,)
 net.to(device)
-net.load_state_dict(torch.load("pretrain_vqvae.pt"))
+
+if use_pretrained:
+    net.load_state_dict(torch.load("pretrain_vqvae.pt"))
 
 criterion = nn.CrossEntropyLoss()
 optimizer=torch.optim.Adam(net.parameters(),lr=1e-4)
