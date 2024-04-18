@@ -14,6 +14,7 @@ transform = transforms.Compose([
     transforms.Lambda(lambda x: x / 2 + 0.5),  # normalize to [0, 1]
 ])
 
+
 def greyscale(image):
     grayscale_transform = transforms.RandomGrayscale(p=0.2)
     imgs = []

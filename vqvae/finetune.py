@@ -4,6 +4,7 @@ from vqvae import *
 import torchvision
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
+from class_imbalance import get_imbalance_dataset
 from torch.utils.data import SubsetRandomSampler
 torch.cuda.empty_cache()
 
@@ -32,29 +33,7 @@ def calculate_supervised_dice_score(predictions, ground_truth):
     dice_score = 2 * (intersection + smooth) / (cardinality + smooth)
     return dice_score.sum()
 
-def load_imbalanced_data(training_data, class_1_ratio=0.2, class_2_ratio=0.8):
-    # Assume class_1_indices and class_2_indices are the indices of your images in class 1 and class 2 respectively
-    class_1_indices = [i for i, (_, target) in enumerate(training_data) if target == 0]
-    class_2_indices = [i for i, (_, target) in enumerate(training_data) if target == 1]
 
-    # Calculate the number of samples to take from each class
-    num_class_1_samples = int(len(class_1_indices) * class_1_ratio)
-    num_class_2_samples = int(len(class_2_indices) * class_2_ratio)
-
-    # Randomly sample from the list of indices
-    np.random.shuffle(class_1_indices)
-    np.random.shuffle(class_2_indices)
-    class_1_indices = class_1_indices[:num_class_1_samples]
-    class_2_indices = class_2_indices[:num_class_2_samples]
-
-    # Combine the indices
-    indices = class_1_indices + class_2_indices
-
-    # Create the sampler and data loader
-    sampler = SubsetRandomSampler(indices)
-    train_dataloader = DataLoader(training_data, batch_size=64, sampler=sampler)
-
-    return train_dataloader
 
 
 device="cuda"
@@ -72,12 +51,21 @@ target_transform=transforms.Compose([
 
 use_pretrained=True # Set this to False to train the model from scratch(Fully supervised)
 load_half_data=False # Set this to True to load half of the data
+use_imbalance_data=False # Set this to True to use the imbalance dataset
 
 
 training_data = torchvision.datasets.OxfordIIITPet(root='./data/oxford-pets',transform=transform,target_types="segmentation",target_transform=target_transform, download=True)
-training_data,val_data=torch.utils.data.random_split(training_data, [3180,500])
+if use_imbalance_data:
+    training_data=get_imbalance_dataset()
+
+total_samples = len(training_data)
+train_samples = int(total_samples * 0.8)
+val_samples = total_samples - train_samples
+
+training_data, val_data = torch.utils.data.random_split(training_data, [train_samples, val_samples])
 # Calculate the total number of samples and the half point in the training dataset
 total_samples = len(training_data)
+print('Total number of samples:', total_samples)
 half_point = total_samples // 2
 if load_half_data:
     # If load_half_data is True, use only half of the training dataset
@@ -103,7 +91,7 @@ if use_pretrained:
     net.load_state_dict(torch.load("pretrain_vqvae.pt"))
 
 criterion = nn.CrossEntropyLoss()
-optimizer=torch.optim.Adam(net.parameters(),lr=1e-3) # use lr=2e-4 for supervised learning
+optimizer=torch.optim.Adam(net.parameters(),lr=2e-4) # use lr=2e-4 for supervised learning
 for epoch in range(50):
     epoch_loss=0
     dice=0
