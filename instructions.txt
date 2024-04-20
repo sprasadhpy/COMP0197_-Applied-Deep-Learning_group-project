@@ -1,0 +1,12 @@
+The dataset for pretraining is downloaded using data_collection.ipynb
+This dataset is used for pretraining the self-supervised VQ-VAE, SegNet and UNet models.
+
+# SegNet
+
+# UNet
+
+# VQ-VAE
+
+We have also compared the training results to a supervised LinkNet model.
+
+VQ-VAE is chosen as the final model and experiments are performed on it - two experiments listed in the vqvae folder under pretrain_experiment.py and classimbalanceexperiment.py
