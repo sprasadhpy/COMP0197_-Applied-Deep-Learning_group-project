@@ -1,0 +1,3 @@
+Segnet
+pip install tqdm
+conda install matplotlib
