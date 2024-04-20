@@ -63,8 +63,8 @@ net.to(device)
 net.load_state_dict(torch.load("pretrain_vqvae.pt"))
 
 criterion = nn.CrossEntropyLoss()
-optimizer=torch.optim.Adam(net.parameters(),lr=1e-4)
-for epoch in range(100):
+optimizer=torch.optim.Adam(net.parameters(),lr=1e-3)
+for epoch in range(50):
     epoch_loss=0
     dice=0
     for i, data in enumerate(train_dataloader, 0):
