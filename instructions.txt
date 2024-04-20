@@ -1,4 +1,4 @@
-The dataset for pretraining is downloaded using data_collection.ipynb
+The dataset for pretraining is downloaded using DataCollection.py
 This dataset is used for pretraining the self-supervised VQ-VAE, SegNet and UNet models.
 
 # SegNet
