@@ -4,7 +4,6 @@ from vqvae import *
 import torchvision
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
-torch.cuda.empty_cache()
 
 def calculate_supervised_dice_score(predictions, ground_truth):
     """
@@ -31,7 +30,7 @@ def calculate_supervised_dice_score(predictions, ground_truth):
     dice_score = 2 * (intersection + smooth) / (cardinality + smooth)
     return dice_score.sum()
 
-device="cuda"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 transform = transforms.Compose([
     transforms.Resize((120, 120)),
     transforms.ToTensor(),
