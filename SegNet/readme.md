@@ -42,4 +42,11 @@ https://liveuclac-my.sharepoint.com/:f:/g/personal/ucabap7_ucl_ac_uk/EgddPL4y9Ip
     img2t = T.ToTensor()
     ```
 
+2. **Define the Model:**
+    ```python
+    class Segnet(nn.Module):
+    ```
+
+
+
 
