@@ -1,7 +1,23 @@
 # COMP0197_-Applied-Deep-Learning_group-project
-Self-supervised learning - group project
+
+# Team
+| Name                        | Degree                                         | Email                                  |
+|-----------------------------|------------------------------------------------|----------------------------------------|
+| Abhineet kumar              | MSc Computational Statistics and Machine Learning | ucabku0@ucl.ac.uk                   |
+| Akhil Prakash Shenvi Sangaonkar | MSc Computational Statistics and Machine Learning | ucabap7@ucl.ac.uk                   |
+| Bushra Aldhanhani           | MSc Machine Learning                          | Bushra.Aldhanhani.23@ucl.ac.uk        |
+| Idan Glassberg              | MSc Machine Learning                          | ucabig0@ucl.ac.uk                     |
+| Marianna Rybnikova          | MSc Computational Statistics and Machine Learning | marianna.rybnikova.23@ucl.ac.uk     |
+| Shyaam Prasadh              | MSc Machine Learning                          | ucabsr5@ucl.ac.uk                     |
+| Sreekar Cango               | MSc Robotics and Computation                  | ucabs44@ucl.ac.uk                     |
+| Sruthi Susan Kuriakose      | MSc Machine Learning                          | ucaburi@ucl.ac.uk                     |
+
+
+# Self-supervised learning -Group project
 
 Instructions to run are in instructions.txt
+
+
 
 # Main Architecture - VQ-VAE
 
