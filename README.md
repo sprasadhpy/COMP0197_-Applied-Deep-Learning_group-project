@@ -208,7 +208,7 @@ The table below presents the performance metrics of the model on both the valida
 
 The Default mode that includes pre-training and fine-tuning shows robust scores across the board with the lowest training loss, high Train and Test Dice scores, and the highest Test Accuracy, indicating a well-optimized model to predict. Other training modes such as including training with half the dataset and also, fully supervised without pretraining show higher losses and slightly lower scores, suggesting some impact on the model's ability to generalize. However, our experiment on the Class Imbalance mode, designed to tackle biased datasets, performs admirably well. Though with a slight compromise in Test IOU and Accuracy, which is a common challenge in such dataset scenarios. Overall, the consistency in high Dice and IOU scores across all training modes reflects the model's strong segmentation ability.
 
-## VAE Results: Training Performance
+## VQ-VAE Results: Training Performance
 
 | Mode                                               | Training Loss | Train Dice Score |
 |----------------------------------------------------|---------------|------------------|
@@ -218,7 +218,7 @@ The Default mode that includes pre-training and fine-tuning shows robust scores 
 | Pre-training default Fine Tuning (Half Dataset)    | 0.612         | 0.9571           |
 | Class Imbalance (Cats: 'Maine', 'Birman', 'Bombay'; Dogs: All) | 0.63   | 0.92577          |
 
-## VAE Results: Validation and Testing Performance
+## VQ-VAE Results: Validation and Testing Performance
 
 | Mode                                               | Val Dice Score | Test Dice Score |
 |----------------------------------------------------|----------------|-----------------|
@@ -228,7 +228,7 @@ The Default mode that includes pre-training and fine-tuning shows robust scores 
 | Pre-training default Fine Tuning (Half Dataset)    | 0.8471         | 0.8484          |
 | Class Imbalance (Cats: 'Maine', 'Birman', 'Bombay'; Dogs: All) | 0.8575   | 0.8433          |
 
-## VAE Results: Test Set Performance
+## VQ-VAE Results: Test Set Performance
 
 | Mode                                               | Test IOU Score | Test Accuracy |
 |----------------------------------------------------|----------------|---------------|
