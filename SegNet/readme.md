@@ -160,7 +160,20 @@ https://liveuclac-my.sharepoint.com/:f:/g/personal/ucabap7_ucl_ac_uk/EgddPL4y9Ip
 
         return x
     ```
+4. **Training and Evaluation:**
+    ```python
+    Define the model , optimiser and loss
+    model = Segnet().to(device)
+    criterion1 =  torch.nn.MSELoss().to(device)
+    optimizer = optim.AdamW(model.parameters(), lr=0.0001)
+    # pre train the model
+    mse , dlpt, iou = pretrain(model, criterion1, optimizer, pre_train_dataloader, 20)
+    # train the model
+    tl , dl,iou = train(model, criterion1, optimizer, train_dataloader, 50)
 
+    # Evaluate the model
+    test(model,  test_dataloader, epochs=1)
+    ```
 
 
 
