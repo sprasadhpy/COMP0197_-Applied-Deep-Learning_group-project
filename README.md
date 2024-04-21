@@ -101,6 +101,23 @@ After compiling data from various publicly available datasets and consolidating 
 However, for the final pretraining stage, only the masking transformation (images were randomly assigned to masking ranging from 5% to 25%) was employed to enhance the dataset.
 
 --------------------------------------
+
+# Benchmark Architecture - SegNet
+
+SegNet is a deep convolutional encoder-decoder architecture. It is designed to take an image as input and produce a pixel-wise label map as output.The encoder captures high-level features by applying a series of convolutional and pooling layers. The key innovation in SegNet is its decoder network, which uses the spatial pooling indices generated during the max-pooling in the encoder phase to upsample and produce a  segmentation map. This is a form of up-sampling that is both memory-efficient and helps to preserve the fine-grained details in the output.
+
+This model can be used as a fully supervised model, and also as a pretrained model. The pretraining has been done using the Masked Autoencoder approach on our pretraining dataset.
+
+All relevant python scripts are encapsulated in ```SegNet/SegNetMSE.py``` . It can be run using ```python SegNet/SegNetMSE.py```
+
+## Evaluation Metrics - Results of Segnet (pretrained and finetuned) on Oxford-IIIT Pet Dataset
+
+| Metric      | Result  |
+|-------------|---------|
+| Dice Score  | 0.511  |
+| Accuracy    | 0.875  |
+| IoU Score   | 0.343  |
+
 # Benchmark Architecture - LinkNet
 
 LinkNet is a convolutional neural network architecture designed for semantic segmentation tasks. It utilizes a ResNet model as the encoder and decoder blocks for feature extraction and upscaling. This README provides an overview of the LinkNet implementation in PyTorch.
