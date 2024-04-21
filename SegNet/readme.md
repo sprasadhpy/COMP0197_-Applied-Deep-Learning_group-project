@@ -12,6 +12,12 @@ Then run the SegNet.py file
 The saved pytorch models can be found here:
 https://liveuclac-my.sharepoint.com/:f:/g/personal/ucabap7_ucl_ac_uk/EgddPL4y9IpKmct5_MG8h7IBIi0VEEUWoZeoCfvMaz4Fqg?e=UJkOMp
 
+**SegNet:**
+    
+    ```SegNet is based on an encoder-decoder architecture. It is designed to take an image as input and produce a pixel-wise label map as output.The encoder captures high-level features by applying a series of convolutional and pooling layers. The key innovation in SegNet is its   decoder network, which uses the spatial pooling indices generated during the max-pooling in the encoder phase to upsample and produce a  segmentation map. This is a form of up-sampling that is both memory-efficient and helps to preserve the fine-grained details in the output ```
+
+  
+
  **Required packages:**
     ```
     conda install matplotlib
