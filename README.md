@@ -204,7 +204,7 @@ The table below presents the performance metrics of the model on both the valida
 ```
 # Experiments
 
-#### 1)Class Imbalance Experiment & 2) Pretrain with half dataset 
+### 1)Class Imbalance Experiment & 2) Pretrain with half dataset 
 
 The Default mode that includes pre-training and fine-tuning shows robust scores across the board with the lowest training loss, high Train and Test Dice scores, and the highest Test Accuracy, indicating a well-optimized model to predict. Other training modes such as including training with half the dataset and also, fully supervised without pretraining show higher losses and slightly lower scores, suggesting some impact on the model's ability to generalize. However, our experiment on the Class Imbalance mode, designed to tackle biased datasets, performs admirably well. Though with a slight compromise in Test IOU and Accuracy, which is a common challenge in such dataset scenarios. Overall, the consistency in high Dice and IOU scores across all training modes reflects the model's strong segmentation ability.
 
