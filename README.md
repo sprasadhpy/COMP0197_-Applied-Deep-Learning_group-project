@@ -3,7 +3,7 @@ Self-supervised learning - group project
 
 Instructions to run are in instructions.txt
 
-# LinkNet:Image segmentation 
+# LinkNet :Benchmark Architecture
 
 LinkNet is a convolutional neural network architecture designed for image segmentation tasks. It utilizes a ResNet model as the encoder and decoder blocks for feature extraction and upscaling.
 
