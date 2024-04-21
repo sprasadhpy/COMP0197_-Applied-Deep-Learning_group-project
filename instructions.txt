@@ -8,6 +8,7 @@ The pytorch models can be downloaded from https://liveuclac-my.sharepoint.com/:f
 Required package tqdm and matplotlib
 pip install tqdm
 conda install matplotlib
+To run the file first download the data from DataCollection.py.
 
 # UNet
 
