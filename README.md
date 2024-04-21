@@ -88,3 +88,21 @@ trained_model = train_segmentation_model(train_loader, val_loader, device, num_e
 
 # Evaluate the model
 dice_score, iou_score = evaluate_model(trained_model, test_loader, device)
+
+# Model Performance on Validation and Test Sets
+
+The table below presents the performance metrics of the model on both the validation and test sets.
+
+| Metric                               | Validation Set | Test Set |
+|--------------------------------------|----------------|----------|
+| Loss                                 | 0.288          | N/A      |
+| Dice Score                           | 0.858          | 0.857    |
+| Intersection over Union (IoU)        | 0.770          | 0.768    |
+
+## Interpretation
+
+- **Loss:** The average loss on the validation set is 0.288.
+- **Dice Score:** The Dice score, a measure of overlap between predicted and ground truth masks, is 0.858 on the validation set and 0.857 on the test set.
+- **Intersection over Union (IoU):** The IoU score, which measures the overlap of predicted and ground truth masks normalized by their union, is 0.770 on the validation set and 0.768 on the test set.
+
+
