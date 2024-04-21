@@ -91,7 +91,14 @@ In this project, pre-training data was collected from different datasets which a
 
 ## Preprocessing 
 
-After collecting data from different publicly available data sets and merging it to create the final dataset, the next includes performing some transformations in the data such as rotation, Color Distortion, Greyscale and Masking. These transformations are applied to enhance model robustness, improve feature learning, and ultimately lead to better generalization on unseen data. 
+After compiling data from various publicly available datasets and consolidating them into our final dataset, the images underwent normalization to a range of 0 to 1. To augment the dataset and improve model robustness, we initially considered several transformations:
+
+- Rotation: Randomly rotating images by 0, 90, 180, and 270 degrees.
+- Color Jittering: Adjusting brightness, contrast, saturation, and hue with specified values (brightness=0.5, contrast=0.5, saturation=0.5, hue=0.1).
+- Greyscale Function: Converting images to greyscale with a predefined probability *p*.
+- Masking: Masking a predefined percentage of each image through random area selection.
+  
+However, for the final pretraining stage, only the masking transformation was employed to enhance the dataset.
 
 --------------------------------------
 # Benchmark Architecture - LinkNet
