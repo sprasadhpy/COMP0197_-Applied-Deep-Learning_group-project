@@ -1,4 +1,4 @@
-# COMP0197_-Applied-Deep-Learning_group-project
+# COMP0197 - Applied-Deep-Learning_Group-project
 
 # Team
 | Name                        | Degree                                         | Email                                  |
@@ -13,11 +13,7 @@
 | Sruthi Susan Kuriakose      | MSc Machine Learning                          | ucaburi@ucl.ac.uk                     |
 
 
-# Self-supervised learning -Group project
-
-Instructions to run are in instructions.txt
-
-
+# Self-supervised learning - Group project
 
 # Main Architecture - VQ-VAE
 
