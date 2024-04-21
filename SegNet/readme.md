@@ -172,8 +172,20 @@ https://liveuclac-my.sharepoint.com/:f:/g/personal/ucabap7_ucl_ac_uk/EgddPL4y9Ip
     tl , dl,iou = train(model, criterion1, optimizer, train_dataloader, 50)
 
     # Evaluate the model
+
     test(model,  test_dataloader, epochs=1)
     ```
+
+# Input and Output Feature Maps of segNet
+
+
+
+| Block | Encoder (m x n) | Decoder (m x n) |
+|-------|-----------------|-----------------|
+| 1.    | 3 x 64          | 64 x 3          |
+| 2.    | 64 x 128        | 128 x 64        |
+| 3.    | 128 x 256       | 256 x 128       |
+| 4.    | 256 x 512       | 512 x 256       |
 
 
 
