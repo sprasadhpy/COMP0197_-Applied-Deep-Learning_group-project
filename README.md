@@ -239,7 +239,7 @@ The Default mode that includes pre-training and fine-tuning shows robust scores 
 | Class Imbalance (Cats: 'Maine', 'Birman', 'Bombay'; Dogs: All) | 0.740   | 0.846         |
 
 
-# 3) Image Segmentation Blurring Experiment
+### 3) Image Segmentation Blurring Experiment
 
 In the image segmentation task, we conducted a blurring experiment to analyze the impact of blurring levels on model performance. Blurring levels ranged from 0.0% to 100.0%, and metrics such as Dice Score, IoU Score, and Accuracy were evaluated for each level.
 
