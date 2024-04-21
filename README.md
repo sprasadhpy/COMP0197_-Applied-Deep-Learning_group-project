@@ -82,7 +82,7 @@ year = {2017}
 
 1. Pretrain VQ-VAE Full Finetuned Model columns exhibits the highest scores across all three metrics and it implies that full finetuning after pretraining leads to substantial improvements in model performance metrics. This configuration sets the benchmark- showing a slight decrease in Dice Score (-0.12%), and a more noticeable decrease in IoU Score (-11.10%).
    
-2. SL VQ-VAE Model exhibits high accuracy, suggesting that the SL VQ-VAE setup is robust, albeit with a slightly lower capability in segmenting images as reflected in the IoU Score (-12.25%). However, demonstrates a small decline in Dice Score (-0.47%) compared to the full finetuned model.
+2. SL VQ-VAE Model exhibits high accuracy, suggesting that the SL VQ-VAE setup is robust, albeit with a slightly lower capability in segmenting images as reflected in the IoU Score (-12.25%). However, demonstrates a small decline in Dice Score (-0.47%) compared to the full finetuned model (Refer to the Experiments section)
    
 3. Pretrain VQ-VAE Half Finetune Model also indicate a decrease in performance metrics compared to full finetuning, with a -2.20% change in Dice Score and -12.29% in IoU Score.  Highlights the importance of finetuning in achieving optimal model performance.
  
