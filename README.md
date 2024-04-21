@@ -3,9 +3,9 @@ Self-supervised learning - group project
 
 Instructions to run are in instructions.txt
 
-# LinkNet :Benchmark Architecture
+# Benchmark Architecture - LinkNet
 
-LinkNet is a convolutional neural network architecture designed for image segmentation tasks. It utilizes a ResNet model as the encoder and decoder blocks for feature extraction and upscaling.
+LinkNet is a convolutional neural network architecture designed for semantic segmentation tasks. It utilizes a ResNet model as the encoder and decoder blocks for feature extraction and upscaling. This README provides an overview of the LinkNet implementation in PyTorch.
 
 ## Requirements
 
@@ -19,8 +19,14 @@ To use LinkNet in your project, follow these steps:
 
 1. **Import the necessary modules:**
     ```python
+    import torch
     import torch.nn as nn
-    from torchvision.models import resnet
+    import torch.optim as optim
+    from torch.utils.tensorboard import SummaryWriter
+    from torchmetrics.functional import dice
+    from torch.optim.lr_scheduler import ReduceLROnPlateau
+    from linknet import link_net
+    import os
     ```
 
 2. **Define the decoder block:**
@@ -37,14 +43,13 @@ To use LinkNet in your project, follow these steps:
             ...
     ```
 
-4. **Instantiate the LinkNet model:**
+4. **Training and Evaluation:**
     ```python
-    model = link_net(classes=NUM_CLASSES)
-    ```
+    # Train the model
+    trained_model = train_segmentation_model(train_loader, val_loader, device, num_epochs=100, lr=1e-5)
 
-5. **Perform forward pass:**
-    ```python
-    output = model(input_tensor)
+    # Evaluate the model
+    dice_score, iou_score = evaluate_model(trained_model, test_loader, device)
     ```
 
 ## Implementation Details
@@ -57,8 +62,14 @@ To use LinkNet in your project, follow these steps:
 
 ```python
 # Import necessary modules
+import torch
 import torch.nn as nn
-from torchvision.models import resnet
+import torch.optim as optim
+from torch.utils.tensorboard import SummaryWriter
+from torchmetrics.functional import dice
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+from linknet import link_net
+import os
 
 # Define the LinkNet model
 class link_net(nn.Module):
@@ -72,8 +83,8 @@ class link_net(nn.Module):
         ...
         return x
 
-# Instantiate the LinkNet model
-model = link_net(classes=NUM_CLASSES)
+# Train the model
+trained_model = train_segmentation_model(train_loader, val_loader, device, num_epochs=100, lr=1e-5)
 
-# Perform forward pass
-output = model(input_tensor)
+# Evaluate the model
+dice_score, iou_score = evaluate_model(trained_model, test_loader, device)
