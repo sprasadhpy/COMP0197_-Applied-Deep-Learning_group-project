@@ -166,6 +166,9 @@ https://liveuclac-my.sharepoint.com/:f:/g/personal/ucabap7_ucl_ac_uk/EgddPL4y9Ip
 
         return x
     ```
+```
+device = "cuda" if torch.cuda.is_available() else "cpu"
+```
 4. **Training and Evaluation:**
     ```python
     Define the model , optimiser and loss
