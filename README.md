@@ -58,6 +58,21 @@ To use LinkNet in your project, follow these steps:
 - **LinkNet Model:** Utilizes a ResNet encoder followed by decoder blocks with skip connections for better feature localization.
 - **Pretrained Weights:** The ResNet encoder is initialized with pretrained weights.
 
+# Input and Output Feature Maps
+
+The table below illustrates the dimensions of input and output feature maps at different stages of the encoder and decoder blocks.
+
+| Block | Encoder (m x n) | Decoder (m x n) |
+|-------|-----------------|-----------------|
+| 1.    | 64 x 64         | 64 x 64         |
+| 2.    | 64 x 128        | 128 x 64        |
+| 3.    | 128 x 256       | 256 x 128       |
+| 4.    | 256 x 512       | 512 x 256       |
+
+These dimensions provide insight into the transformation of feature maps as they pass through the encoder and decoder blocks of the model.
+
+
+
 ## Example
 
 ```python
