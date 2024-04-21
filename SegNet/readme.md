@@ -44,7 +44,121 @@ https://liveuclac-my.sharepoint.com/:f:/g/personal/ucabap7_ucl_ac_uk/EgddPL4y9Ip
 
 2. **Define the Model:**
     ```python
-    class Segnet(nn.Module):
+    class DC2(nn.Module):
+    def __init__(self, input_channel, output_channel, kernel_size):
+        super().__init__()
+        self.seq = nn.Sequential(
+            nn.Conv2d(in_channels=input_channel, out_channels=output_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(output_channel),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=output_channel, out_channels=output_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(output_channel),
+            nn.ReLU(),
+        )
+        self.max_pool = nn.MaxPool2d(kernel_size=2, return_indices=True)
+
+    def forward(self, x):
+        y = self.seq(x)
+        y_shape = y.shape
+        y, index = self.max_pool (y)
+        return y, index, y_shape
+
+    class DC3(nn.Module):
+    def __init__(self, input_channel, output_channel, kernel_size):
+        super().__init__()
+        self.seq = nn.Sequential(
+            nn.Conv2d(in_channels=input_channel, out_channels=output_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(output_channel),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=output_channel, out_channels=output_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(output_channel),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=output_channel, out_channels=output_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(output_channel),
+            nn.ReLU(),
+        )
+        self.max_pool  = nn.MaxPool2d(kernel_size=2, return_indices=True)
+
+    def forward(self, x):
+        y = self.seq(x)
+        y_shape = y.shape
+        y, index = self.max_pool(y)
+        return y, index, y_shape
+
+    class UC2(nn.Module):
+    def __init__(self, input_channel, output_channel, kernel_size):
+        super().__init__()
+        self.seq = nn.Sequential(
+            nn.Conv2d(in_channels=input_channel, out_channels=input_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(input_channel),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=input_channel, out_channels=output_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(output_channel),
+            nn.ReLU(),
+        )
+        self.max_unpool = nn.MaxUnpool2d(kernel_size=2)
+
+    def forward(self, x, index, output_size):
+        y = self.max_unpool(x, index, output_size=output_size)
+        y = self.seq(y)
+        return y
+
+    class UC3(nn.Module):
+    def __init__(self, input_channel, output_channel, kernel_size):
+        super().__init__()
+        self.seq = nn.Sequential(
+            nn.Conv2d(in_channels=input_channel, out_channels=input_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(input_channel),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=input_channel, out_channels=input_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(input_channel),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=input_channel, out_channels=output_channel, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+            nn.BatchNorm2d(output_channel),
+            nn.ReLU(),
+        )
+        self.max_unpool = nn.MaxUnpool2d(kernel_size=2)
+
+    def forward(self, x, index, output_size):
+        y = self.max_unpool(x, index, output_size=output_size)
+        y = self.seq(y)
+        return y
+
+
+    class Segnet(torch.nn.Module):
+    def __init__(self, kernel_size=3):
+        super().__init__()
+        self.out_channels = 3
+        self.batch_norm_input = nn.BatchNorm2d(3)
+        self.dc_1 = DC2(3, 64, kernel_size=kernel_size)
+        self.dc_2 = DC2(64, 128, kernel_size=kernel_size)
+        self.dc_3 = DC3(128, 256, kernel_size=kernel_size)
+        self.dc_4 = DC3(256, 512, kernel_size=kernel_size)
+
+
+        self.uc_4 = UC3(512, 256, kernel_size=kernel_size)
+        self.uc_3 = UC3(256, 128, kernel_size=kernel_size)
+        self.uc_2 = UC2(128, 64, kernel_size=kernel_size)
+        self.uc_1 = UC2(64, 3, kernel_size=kernel_size)
+
+    def forward(self, batch: torch.Tensor):
+        x = self.batch_norm_input(batch)
+
+        # SegNet Encoder
+        x, max_pool_1_index, s1 = self.dc_1(x)
+        x, max_pool_2_index, s2 = self.dc_2(x)
+        x, max_pool_3_index, s3 = self.dc_3(x)
+        x, max_pool_4_index, s4 = self.dc_4(x)
+
+
+        # SegNet Decoder
+
+        x = self.uc_4(x, max_pool_4_index, output_size=s4)
+        x = self.uc_3(x, max_pool_3_index, output_size=s3)
+        x = self.uc_2(x, max_pool_2_index, output_size=s2)
+        x = self.uc_1(x, max_pool_1_index, output_size=s1)
+
+        return x
     ```
 
 
