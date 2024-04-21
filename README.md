@@ -3,6 +3,72 @@ Self-supervised learning - group project
 
 Instructions to run are in instructions.txt
 
+# Main Architecture - #VQ-VAE
+
+
+This code is a PyTorch implementation of the Vector Quantized Variational Autoencoder (VQ-VAE) model. It is ported from the [official implementation](https://github.com/deepmind/sonnet/blob/v2/examples/vqvae_example.ipynb) provided by DeepMind in their Sonnet library.
+
+### Model Architecture
+
+The VQ-VAE consists of three main components: Encoder, Vector Quantizer, and Decoder.
+
+#### Encoder
+
+The Encoder module is responsible for encoding input images into a lower-dimensional feature space. It contains convolutional layers followed by residual stacks.
+
+#### Vector Quantizer
+
+The Vector Quantizer module quantizes the continuous latent space into a discrete space represented by a fixed set of embeddings. It involves comparing the input embeddings with the learned dictionary embeddings and assigning the closest dictionary embedding to each input.
+
+#### Decoder
+
+The Decoder module reconstructs the input image from the quantized latent space representation. It consists of convolutional layers followed by residual stacks and upsampling layers.
+
+### Usage
+
+To use the VQ-VAE model, instantiate the `VQVAE` class with the desired parameters. You can then train the model using your dataset and evaluate its performance.
+
+### Files
+
+- `vqvae.py`: Contains the implementation of the VQ-VAE model.
+- `train.py`: Includes code for training the VQ-VAE model.
+- `evaluate.py`: Provides functions for evaluating the performance of the trained model.
+
+### Requirements
+
+- Python >= 3.6
+- PyTorch >= 1.7
+- tqdm
+- matplotlib
+
+### Citation
+
+If you find this code useful in your research, please consider citing the original DeepMind paper:
+
+@article{vqvae,
+title = {Neural Discrete Representation Learning},
+author = {van den Oord, A{"a}ron and Vinyals, Oriol and Kavukcuoglu, Koray},
+journal = {Advances in Neural Information Processing Systems},
+year = {2017}
+}
+
+# Results -# VQ-VAE Model Evaluation on Oxford-IIIT Pet Dataset
+
+## Evaluation Metrics
+
+| Metric      | Result  |
+|-------------|---------|
+| Dice Score  | 0.8517  |
+| Accuracy    | 0.8986  |
+| IoU Score   | 0.7520  |
+
+## Inference
+
+The VQ-VAE model exhibits strong performance on the Oxford-IIIT Pet Dataset, with high accuracy and robustness in image segmentation as indicated by the Dice and IoU scores.
+
+--------------------------------------
+
+
 # Benchmark Architecture - LinkNet
 
 LinkNet is a convolutional neural network architecture designed for semantic segmentation tasks. It utilizes a ResNet model as the encoder and decoder blocks for feature extraction and upscaling. This README provides an overview of the LinkNet implementation in PyTorch.
