@@ -45,8 +45,8 @@ target_transform=transforms.Compose([
 
 training_data = torchvision.datasets.OxfordIIITPet(root='./data/oxford-pets',transform=transform,target_types="segmentation",target_transform=target_transform, download=True)
 training_data,val_data=torch.utils.data.random_split(training_data, [3180,500])
-# training_dataset,_=torch.utils.data.random_split(training_data, [1590,1590]) # use this line to finetune on half of the data
-# training_dataset,_=torch.utils.data.random_split(training_data, [795,2385]) # use this line to finetune on a quatre of the data
+# training_data,_=torch.utils.data.random_split(training_data, [1590,1590]) # use this line to finetune on half of the data
+# training_data,_=torch.utils.data.random_split(training_data, [795,2385]) # use this line to finetune on a quatre of the data
 train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
 val_dataloader = DataLoader(val_data, batch_size=64, shuffle=True)
 
