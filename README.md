@@ -3,7 +3,7 @@ Self-supervised learning - group project
 
 Instructions to run are in instructions.txt
 
-# Main Architecture - #VQ-VAE
+# Main Architecture - VQ-VAE
 
 
 This code is a PyTorch implementation of the Vector Quantized Variational Autoencoder (VQ-VAE) model. It is ported from the [official implementation](https://github.com/deepmind/sonnet/blob/v2/examples/vqvae_example.ipynb) provided by DeepMind in their Sonnet library.
@@ -52,7 +52,7 @@ journal = {Advances in Neural Information Processing Systems},
 year = {2017}
 }
 
-# Results -# VQ-VAE Model Evaluation on Oxford-IIIT Pet Dataset
+# Results - VQ-VAE Model Evaluation on Oxford-IIIT Pet Dataset
 
 ## Evaluation Metrics
 
