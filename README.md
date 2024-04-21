@@ -98,7 +98,7 @@ After compiling data from various publicly available datasets and consolidating 
 - Greyscale Function: Converting images to greyscale with a predefined probability *p*.
 - Masking: Masking a predefined percentage of each image through random area selection.
   
-However, for the final pretraining stage, only the masking transformation was employed to enhance the dataset.
+However, for the final pretraining stage, only the masking transformation (images were randomly assigned to masking ranging from 5% to 25%) was employed to enhance the dataset.
 
 --------------------------------------
 # Benchmark Architecture - LinkNet
