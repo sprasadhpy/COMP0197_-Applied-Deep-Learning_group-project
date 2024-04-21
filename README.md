@@ -68,6 +68,13 @@ journal = {Advances in Neural Information Processing Systems},
 year = {2017}
 }
 
+# Pretraining Data Collection
+
+In this project, pre-training data was collected from different datasets which are the CIFAR-10, Stanford dataset, Kaggle set and Microsoft Cats&Dogs dataset. The C-10 dataset consists of 60,000 32x32 colour images in 10 different classes, with 6,000 images per class. The classes of interest were the dogs class and the cats class. The Stanford Dogs Dataset contains 20,580 images of dogs, which represent 120 different breeds. On the other hand, the Kaggle dogs and cats set includes about 1,500 images of cats and 1,500 images of dogs, while the  Microsoft Cats&Dogs dataset includes 12,500 images of cats and 12,500 images of dogs. Except for CIFAR-10, the other datasets do not have a consistent image size and it can vary within the same class. The data collected for dogs is from the CIFAR-10 and Stanford dataset and consists of 25580 images. However, the cats' dataset which is collected from CIFAR-10,  Kaggle set and Microsoft Cats&Dogs dataset only consists of 18499 images. To ensure equality, the dogs' dataset was reduced to be the same size as the cats' dataset.
+
+After collecting data from different publicly available data sets and merging it to create the final dataset, the next includes performing some transformations in the data such as rotation, Color Distortion, Greyscale and Masking. These transformations are applied to enhance model robustness, improve feature learning, and ultimately lead to better generalization on unseen data. 
+
+
 # Results - VQ-VAE Model Evaluation on Oxford-IIIT Pet Dataset
 
 ## Evaluation Metrics
