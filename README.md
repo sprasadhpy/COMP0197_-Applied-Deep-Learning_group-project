@@ -102,22 +102,6 @@ However, for the final pretraining stage, only the masking transformation (image
 
 --------------------------------------
 
-# Benchmark Architecture - SegNet
-
-SegNet is a deep convolutional encoder-decoder architecture. It is designed to take an image as input and produce a pixel-wise label map as output.The encoder captures high-level features by applying a series of convolutional and pooling layers. The key innovation in SegNet is its decoder network, which uses the spatial pooling indices generated during the max-pooling in the encoder phase to upsample and produce a  segmentation map. This is a form of up-sampling that is both memory-efficient and helps to preserve the fine-grained details in the output.
-
-This model can be used as a fully supervised model, and also as a pretrained model. The pretraining has been done using the Masked Autoencoder approach on our pretraining dataset.
-
-All relevant python scripts are encapsulated in ```SegNet/SegNetMSE.py``` . It can be run using ```python SegNet/SegNetMSE.py```
-
-## Evaluation Metrics - Results of Segnet (pretrained and finetuned) on Oxford-IIIT Pet Dataset
-
-| Metric      | Result  |
-|-------------|---------|
-| Dice Score  | 0.511  |
-| Accuracy    | 0.875  |
-| IoU Score   | 0.343  |
-
 # Benchmark Architecture - LinkNet
 
 LinkNet is a convolutional neural network architecture designed for semantic segmentation tasks. It utilizes a ResNet model as the encoder and decoder blocks for feature extraction and upscaling. This README provides an overview of the LinkNet implementation in PyTorch.
@@ -235,6 +219,24 @@ The table below presents the performance metrics of the model on both the valida
 - **Dice Score:** The Dice score, a measure of overlap between predicted and ground truth masks, is 0.858 on the validation set and 0.857 on the test set.
 - **Intersection over Union (IoU):** The IoU score, which measures the overlap of predicted and ground truth masks normalized by their union, is 0.770 on the validation set and 0.768 on the test set.
 ```
+------------------------------------------------------------------------------------------------------
+
+# Benchmark Architecture - SegNet
+
+SegNet is a deep convolutional encoder-decoder architecture. It is designed to take an image as input and produce a pixel-wise label map as output.The encoder captures high-level features by applying a series of convolutional and pooling layers. The key innovation in SegNet is its decoder network, which uses the spatial pooling indices generated during the max-pooling in the encoder phase to upsample and produce a  segmentation map. This is a form of up-sampling that is both memory-efficient and helps to preserve the fine-grained details in the output.
+
+This model can be used as a fully supervised model, and also as a pretrained model. The pretraining has been done using the Masked Autoencoder approach on our pretraining dataset.
+
+All relevant python scripts are encapsulated in ```SegNet/SegNetMSE.py``` . It can be run using ```python SegNet/SegNetMSE.py```
+
+## Evaluation Metrics - Results of Segnet (pretrained and finetuned) on Oxford-IIIT Pet Dataset
+
+| Metric      | Result  |
+|-------------|---------|
+| Dice Score  | 0.511  |
+| Accuracy    | 0.875  |
+| IoU Score   | 0.343  |
+---------------------------------------------------------------------------------------------------
 # Experiments
 
 ### 1) Class Imbalance Experiment & 2) Pretrain with half dataset 
