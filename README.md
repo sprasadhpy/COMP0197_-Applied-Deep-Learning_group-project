@@ -265,7 +265,7 @@ The table below presents the metrics obtained for different blurring levels:
 These results provide insights into how blurring affects the segmentation model's performance, with decreasing scores observed as blurring levels increase.
 
 
-#### 4) VQ-VAE Performance Metrics Comparison -SSL Vs.SL
+## 4) VQ-VAE Performance Metrics Comparison -SSL Vs.SL
 
 This table compares the performance of the Vector Quantised-Variational AutoEncoder (VQ-VAE) in Self-Supervised Learning (SSL) and Supervised Learning (SL) settings, rounded to three decimal places.
 
